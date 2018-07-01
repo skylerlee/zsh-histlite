@@ -4,5 +4,5 @@
 
 function zshaddhistory {
   print -sr -- ${1%%$'\n'}
-  fc -p zsh_local_history
+  fc -p /proc/$(pidof zsh-histlite)/fd/0
 }
