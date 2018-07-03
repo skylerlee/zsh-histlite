@@ -4,5 +4,5 @@
 
 function zshaddhistory {
   print -sr -- ${1%%$'\n'}
-  fc -p /proc/$(pidof zsh-histlite)/fd/0
+  fc -p histlite.pipe
 }
