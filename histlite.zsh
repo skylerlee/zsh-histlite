@@ -3,6 +3,5 @@
 # found in the LICENSE file.
 
 function zshaddhistory {
-  print -sr -- ${1%%$'\n'}
-  fc -p histlite.pipe
+  hlfc "${1%%$'\n'}"
 }
