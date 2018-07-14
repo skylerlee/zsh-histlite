@@ -1,4 +1,4 @@
-package: .
+package: github.com/skylerlee/zsh-histlite/histlite
 import:
 - package: github.com/mattn/go-sqlite3
   version: ^1.9.0
