@@ -1,11 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"os"
+	"github.com/skylerlee/zsh-histlite"
 )
 
 func main() {
 	args := os.Args
-	fmt.Printf("'%s'", args[1])
+	line := args[1]
+	histlite.Test(line)
 }
