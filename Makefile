@@ -4,6 +4,8 @@
 
 .PHONY: default
 
-default:
-	go build -o hlfc
+default: build
+
+build:
+	go build ./cmd/...
 	@echo "Build done"
