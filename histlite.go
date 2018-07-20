@@ -26,6 +26,13 @@ func CreateTable(db *sql.DB) {
 	)`);
 }
 
+func IsTableCreated(db *sql.DB) bool {
+	rows, _ := db.Query(`SELECT name FROM sqlite_master
+	WHERE type='table' AND name='hl_history'`);
+	defer rows.Close();
+	return rows.Next();
+}
+
 func InsertHistory(db *sql.DB) {
 	db.Exec(`INSERT INTO hl_history (
 		id, command, retcode, timestamp
