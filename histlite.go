@@ -56,6 +56,3 @@ func FindHistory(db *sql.DB, prefix string) string {
 	result, _ := rows.Columns();
 	return result[1];
 }
-
-func Test(line string) {
-}
