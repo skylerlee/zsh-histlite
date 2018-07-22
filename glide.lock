@@ -1,6 +1,10 @@
-hash: 1c637429791b05890853a4beeceead1244d468aad531bf3f0d619e416576fe59
-updated: 2018-07-16T01:18:26.430566217+08:00
+hash: 1ae82d2ca93657f3f35396748f2bbc93260a2f845cd80ef35753f1d427769773
+updated: 2018-07-22T21:00:00.242930461+08:00
 imports:
 - name: github.com/mattn/go-sqlite3
   version: 25ecb14adfc7543176f7d85291ec7dba82c6f7e4
+- name: github.com/spf13/cobra
+  version: ef82de70bb3f60c65fb8eebacbb2d122ef517385
+  subpackages:
+  - cobra
 testImports: []
