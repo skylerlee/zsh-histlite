@@ -49,5 +49,13 @@ func InsertHistory(db *sql.DB, row History) {
 	stmt.Exec(row.command, row.retcode, row.timestamp);
 }
 
+func FindHistory(db *sql.DB, prefix string) string {
+	rows, _ := db.Query(`SELECT * FROM hl_history
+	WHERE command LIKE '?%'`, prefix);
+	rows.Next();
+	result, _ := rows.Columns();
+	return result[1];
+}
+
 func Test(line string) {
 }
