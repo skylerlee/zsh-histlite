@@ -11,6 +11,12 @@ const (
 	HistoryFile = ".zsh_history.db"
 )
 
+type History struct {
+	command string
+	retcode int
+	timestamp int
+}
+
 func InitStorage() (*sql.DB, error) {
 	basePath := os.Getenv("HOME");
 	dbFile := filepath.Join(basePath, HistoryFile);
@@ -33,12 +39,14 @@ func IsTableCreated(db *sql.DB) bool {
 	return rows.Next();
 }
 
-func InsertHistory(db *sql.DB) {
-	db.Exec(`INSERT INTO hl_history (
+func InsertHistory(db *sql.DB, row History) {
+	stmt, _ := db.Prepare(`INSERT INTO hl_history (
 		id, command, retcode, timestamp
 	) VALUES (
-		0, "test", 0, 0
+		0, ?, ?, ?
 	)`);
+	defer stmt.Close();
+	stmt.Exec(row.command, row.retcode, row.timestamp);
 }
 
 func Test(line string) {
