@@ -18,9 +18,9 @@ type History struct {
 }
 
 func InitStorage() (*sql.DB, error) {
-	basePath := os.Getenv("HOME");
-	dbFile := filepath.Join(basePath, HistoryFile);
-	return sql.Open("sqlite3", dbFile);
+	basePath := os.Getenv("HOME")
+	dbFile := filepath.Join(basePath, HistoryFile)
+	return sql.Open("sqlite3", dbFile)
 }
 
 func CreateTable(db *sql.DB) {
@@ -29,14 +29,14 @@ func CreateTable(db *sql.DB) {
 		command TEXT,
 		retcode INTEGER,
 		timestamp TEXT
-	)`);
+	)`)
 }
 
 func IsTableCreated(db *sql.DB) bool {
 	rows, _ := db.Query(`SELECT name FROM sqlite_master
-	WHERE type='table' AND name='hl_history'`);
-	defer rows.Close();
-	return rows.Next();
+	WHERE type='table' AND name='hl_history'`)
+	defer rows.Close()
+	return rows.Next()
 }
 
 func InsertHistory(db *sql.DB, row History) {
@@ -44,15 +44,15 @@ func InsertHistory(db *sql.DB, row History) {
 		id, command, retcode, timestamp
 	) VALUES (
 		0, ?, ?, ?
-	)`);
-	defer stmt.Close();
-	stmt.Exec(row.command, row.retcode, row.timestamp);
+	)`)
+	defer stmt.Close()
+	stmt.Exec(row.command, row.retcode, row.timestamp)
 }
 
 func FindHistory(db *sql.DB, prefix string) string {
 	rows, _ := db.Query(`SELECT * FROM hl_history
-	WHERE command LIKE '?%'`, prefix);
-	rows.Next();
-	result, _ := rows.Columns();
-	return result[1];
+	WHERE command LIKE '?%'`, prefix)
+	rows.Next()
+	result, _ := rows.Columns()
+	return result[1]
 }

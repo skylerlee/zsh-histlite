@@ -10,10 +10,10 @@ var mainCmd = &cobra.Command{
 	Use: "hlclient",
 	Run: func(cmd *cobra.Command, args []string) {
 	},
-};
+}
 
 func main() {
 	if err := mainCmd.Execute(); err != nil {
-		os.Exit(1);
+		os.Exit(1)
 	}
 }
