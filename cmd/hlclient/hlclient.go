@@ -24,9 +24,9 @@ var mainCmd = &cobra.Command{
 }
 
 func init() {
-	mainCmd.Flags().StringVarP(&command, "add", "a", "", "command to add to history")
-	mainCmd.Flags().StringVarP(&command, "drop", "d", "", "command to drop from history")
-	mainCmd.Flags().StringVarP(&command, "query", "q", "", "command prefix for query")
+	mainCmd.Flags().StringVarP(&command, "add", "a", "", "add command to history")
+	mainCmd.Flags().StringVarP(&command, "drop", "d", "", "drop command from history")
+	mainCmd.Flags().StringVarP(&command, "query", "q", "", "query command by prefix")
 }
 
 func main() {
