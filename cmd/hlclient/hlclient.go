@@ -19,6 +19,8 @@ var mainCmd = &cobra.Command{
 			fmt.Println("drop", command)
 		case cmd.Flag("query").Changed:
 			fmt.Println("query", command)
+		default:
+			cmd.Help()
 		}
 	},
 }
