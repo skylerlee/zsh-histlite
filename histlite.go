@@ -24,7 +24,7 @@ func InitStorage() (*sql.DB, error) {
 }
 
 func CreateTable(db *sql.DB) {
-	db.Exec(`CREATE TABLE hl_history (
+	db.Exec(`CREATE TABLE zsh_history (
 		id INTEGER,
 		command TEXT,
 		retcode INTEGER,
@@ -34,13 +34,13 @@ func CreateTable(db *sql.DB) {
 
 func IsTableCreated(db *sql.DB) bool {
 	rows, _ := db.Query(`SELECT name FROM sqlite_master
-	WHERE type='table' AND name='hl_history'`)
+	WHERE type='table' AND name='zsh_history'`)
 	defer rows.Close()
 	return rows.Next()
 }
 
 func InsertHistory(db *sql.DB, row History) {
-	stmt, _ := db.Prepare(`INSERT INTO hl_history (
+	stmt, _ := db.Prepare(`INSERT INTO zsh_history (
 		id, command, retcode, timestamp
 	) VALUES (
 		0, ?, ?, ?
@@ -50,7 +50,7 @@ func InsertHistory(db *sql.DB, row History) {
 }
 
 func FindHistory(db *sql.DB, prefix string) string {
-	rows, _ := db.Query(`SELECT * FROM hl_history
+	rows, _ := db.Query(`SELECT * FROM zsh_history
 	WHERE command LIKE '?%'`, prefix)
 	rows.Next()
 	result, _ := rows.Columns()
