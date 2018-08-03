@@ -45,26 +45,38 @@ func (ctx *Context) CreateTable() {
 }
 
 func (ctx *Context) IsTableCreated() bool {
-	rows, _ := ctx.db.Query(`SELECT name FROM sqlite_master
+	rows, err := ctx.db.Query(`SELECT name FROM sqlite_master
 	WHERE type='table' AND name='zsh_history'`)
+	if err != nil {
+		os.Exit(1)
+	}
 	defer rows.Close()
 	return rows.Next()
 }
 
 func (ctx *Context) InsertHistory(row History) {
-	stmt, _ := ctx.db.Prepare(`INSERT INTO zsh_history (
+	stmt, err := ctx.db.Prepare(`INSERT INTO zsh_history (
 		id, command, retcode, timestamp
 	) VALUES (
 		0, ?, ?, ?
 	)`)
+	if err != nil {
+		os.Exit(1)
+	}
 	defer stmt.Close()
 	stmt.Exec(row.command, row.retcode, row.timestamp)
 }
 
 func (ctx *Context) FindHistory(prefix string) string {
-	rows, _ := ctx.db.Query(`SELECT * FROM zsh_history
+	rows, err := ctx.db.Query(`SELECT * FROM zsh_history
 	WHERE command LIKE '?%'`, prefix)
+	if err != nil {
+		os.Exit(1)
+	}
 	rows.Next()
-	result, _ := rows.Columns()
+	result, err := rows.Columns()
+	if err != nil {
+		os.Exit(1)
+	}
 	return result[1]
 }
