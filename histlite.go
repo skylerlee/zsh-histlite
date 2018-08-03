@@ -31,6 +31,10 @@ func NewContext() *Context {
 	return &Context{db}
 }
 
+func (ctx *Context) Close() {
+	ctx.db.Close()
+}
+
 func (ctx *Context) CreateTable() {
 	ctx.db.Exec(`CREATE TABLE zsh_history (
 		id INTEGER,
