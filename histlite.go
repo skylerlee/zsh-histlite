@@ -17,14 +17,22 @@ type History struct {
 	timestamp int
 }
 
-func InitStorage() (*sql.DB, error) {
-	basePath := os.Getenv("HOME")
-	dbFile := filepath.Join(basePath, HistoryFile)
-	return sql.Open("sqlite3", dbFile)
+type Context struct {
+	db *sql.DB
 }
 
-func CreateTable(db *sql.DB) {
-	db.Exec(`CREATE TABLE zsh_history (
+func NewContext() *Context {
+	homePath := os.Getenv("HOME")
+	filePath := filepath.Join(homePath, HistoryFile)
+	db, err := sql.Open("sqlite3", filePath)
+	if err != nil {
+		os.Exit(1)
+	}
+	return &Context{db}
+}
+
+func (ctx *Context) CreateTable() {
+	ctx.db.Exec(`CREATE TABLE zsh_history (
 		id INTEGER,
 		command TEXT,
 		retcode INTEGER,
@@ -32,15 +40,15 @@ func CreateTable(db *sql.DB) {
 	)`)
 }
 
-func IsTableCreated(db *sql.DB) bool {
-	rows, _ := db.Query(`SELECT name FROM sqlite_master
+func (ctx *Context) IsTableCreated() bool {
+	rows, _ := ctx.db.Query(`SELECT name FROM sqlite_master
 	WHERE type='table' AND name='zsh_history'`)
 	defer rows.Close()
 	return rows.Next()
 }
 
-func InsertHistory(db *sql.DB, row History) {
-	stmt, _ := db.Prepare(`INSERT INTO zsh_history (
+func (ctx *Context) InsertHistory(row History) {
+	stmt, _ := ctx.db.Prepare(`INSERT INTO zsh_history (
 		id, command, retcode, timestamp
 	) VALUES (
 		0, ?, ?, ?
@@ -49,8 +57,8 @@ func InsertHistory(db *sql.DB, row History) {
 	stmt.Exec(row.command, row.retcode, row.timestamp)
 }
 
-func FindHistory(db *sql.DB, prefix string) string {
-	rows, _ := db.Query(`SELECT * FROM zsh_history
+func (ctx *Context) FindHistory(prefix string) string {
+	rows, _ := ctx.db.Query(`SELECT * FROM zsh_history
 	WHERE command LIKE '?%'`, prefix)
 	rows.Next()
 	result, _ := rows.Columns()
