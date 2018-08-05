@@ -12,8 +12,8 @@ const (
 )
 
 type History struct {
-	command string
-	retcode int
+	command   string
+	retcode   int
 	timestamp int
 }
 
