@@ -12,9 +12,9 @@ const (
 )
 
 type History struct {
-	command   string
-	retcode   int
-	timestamp int
+	Command   string
+	Retcode   int
+	Timestamp int
 }
 
 type Context struct {
@@ -64,7 +64,7 @@ func (ctx *Context) InsertHistory(row History) {
 		os.Exit(1)
 	}
 	defer stmt.Close()
-	stmt.Exec(row.command, row.retcode, row.timestamp)
+	stmt.Exec(row.Command, row.Retcode, row.Timestamp)
 }
 
 func (ctx *Context) FindHistory(prefix string) string {

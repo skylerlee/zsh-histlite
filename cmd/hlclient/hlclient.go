@@ -38,6 +38,14 @@ func preflight(ctx *histlite.Context) {
 }
 
 func addCommand(line string) {
+	ctx := histlite.NewContext()
+	preflight(ctx)
+	ctx.InsertHistory(histlite.History{
+		Command:   line,
+		Retcode:   0,
+		Timestamp: 0,
+	})
+	ctx.Close()
 }
 
 func dropCommand(line string) {
