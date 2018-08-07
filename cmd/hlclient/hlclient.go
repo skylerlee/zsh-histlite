@@ -31,6 +31,12 @@ func init() {
 	mainCmd.Flags().StringVarP(&command, "query", "q", "", "query command by prefix")
 }
 
+func preflight(ctx *histlite.Context) {
+	if !ctx.IsTableCreated() {
+		ctx.CreateTable()
+	}
+}
+
 func addCommand(line string) {
 }
 
@@ -38,6 +44,10 @@ func dropCommand(line string) {
 }
 
 func queryCommand(line string) {
+	ctx := histlite.NewContext()
+	preflight(ctx)
+	ctx.FindHistory(line)
+	ctx.Close()
 }
 
 func main() {
