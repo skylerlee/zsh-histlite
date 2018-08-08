@@ -2,7 +2,7 @@ package main
 
 import (
 	"os"
-	"fmt"
+	"time"
 	"github.com/spf13/cobra"
 	"github.com/skylerlee/zsh-histlite"
 )
@@ -43,7 +43,7 @@ func addCommand(line string) {
 	ctx.InsertHistory(histlite.History{
 		Command:   line,
 		Retcode:   0,
-		Timestamp: 0,
+		Timestamp: time.Now().Unix(),
 	})
 	ctx.Close()
 }

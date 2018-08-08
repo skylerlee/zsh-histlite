@@ -14,7 +14,7 @@ const (
 type History struct {
 	Command   string
 	Retcode   int
-	Timestamp int
+	Timestamp int64
 }
 
 type Context struct {
@@ -40,7 +40,7 @@ func (ctx *Context) CreateTable() {
 		id INTEGER,
 		command TEXT,
 		retcode INTEGER,
-		timestamp TEXT
+		timestamp INTEGER
 	)`)
 }
 
