@@ -69,11 +69,14 @@ func (ctx *Context) InsertHistory(row History) {
 
 func (ctx *Context) FindHistory(prefix string) string {
 	rows, err := ctx.db.Query(`SELECT * FROM zsh_history
-	WHERE command LIKE '?%'`, prefix)
+	WHERE command LIKE ?`, prefix + "%")
 	if err != nil {
 		os.Exit(1)
 	}
-	rows.Next()
+	defer rows.Close()
+	if !rows.Next() {
+		return ""
+	}
 	result, err := rows.Columns()
 	if err != nil {
 		os.Exit(1)
