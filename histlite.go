@@ -68,7 +68,7 @@ func (ctx *Context) InsertHistory(row History) {
 }
 
 func (ctx *Context) FindHistory(prefix string) *History {
-	rows, err := ctx.db.Query(`SELECT * FROM zsh_history
+	rows, err := ctx.db.Query(`SELECT command, retcode, timestamp FROM zsh_history
 	WHERE command LIKE ?`, prefix + "%")
 	if err != nil {
 		os.Exit(1)
@@ -77,9 +77,8 @@ func (ctx *Context) FindHistory(prefix string) *History {
 	if !rows.Next() {
 		return nil
 	}
-	var id int
 	var history History
-	err = rows.Scan(&id, &history.Command, &history.Retcode, &history.Timestamp)
+	err = rows.Scan(&history.Command, &history.Retcode, &history.Timestamp)
 	if err != nil {
 		os.Exit(1)
 	}
