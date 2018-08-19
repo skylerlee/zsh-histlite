@@ -3,5 +3,5 @@
 # found in the LICENSE file.
 
 function zshaddhistory {
-  hlfc "${1%%$'\n'}"
+  hlclient -a "${1%%$'\n'}"
 }
