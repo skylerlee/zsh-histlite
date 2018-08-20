@@ -5,3 +5,15 @@
 function zshaddhistory {
   hlclient -a "${1%%$'\n'}"
 }
+
+function histlite-search-up {
+}
+
+function histlite-search-down {
+}
+
+zle -N histlite-search-up
+zle -N histlite-search-down
+
+bindkey "${terminfo[kcuu1]}" histlite-search-up
+bindkey "${terminfo[kcud1]}" histlite-search-down
