@@ -55,12 +55,12 @@ func queryCommand(line string) {
 	ctx := histlite.NewContext()
 	preflight(ctx)
 	history := ctx.FindHistory(line)
+	ctx.Close()
 	if history != nil {
 		os.Stdout.WriteString(history.Command)
 	} else {
-		defer os.Exit(histlite.NODAT)
+		os.Exit(histlite.NODAT)
 	}
-	ctx.Close()
 }
 
 func main() {
