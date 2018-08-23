@@ -54,12 +54,17 @@ func dropCommand(line string) {
 func queryCommand(line string) {
 	ctx := histlite.NewContext()
 	preflight(ctx)
-	ctx.FindHistory(line)
+	history := ctx.FindHistory(line)
+	if history != nil {
+		os.Stdout.WriteString(history.Command)
+	} else {
+		defer os.Exit(histlite.NODAT)
+	}
 	ctx.Close()
 }
 
 func main() {
 	if err := mainCmd.Execute(); err != nil {
-		os.Exit(1)
+		os.Exit(histlite.ERR_EXC)
 	}
 }
