@@ -26,9 +26,10 @@ var mainCmd = &cobra.Command{
 }
 
 func init() {
-	mainCmd.Flags().StringVarP(&command, "add", "a", "", "add command to history")
-	mainCmd.Flags().StringVarP(&command, "drop", "d", "", "drop command from history")
-	mainCmd.Flags().StringVarP(&command, "query", "q", "", "query command by prefix")
+	flags := mainCmd.Flags()
+	flags.StringVarP(&command, "add", "a", "", "add command to history")
+	flags.StringVarP(&command, "drop", "d", "", "drop command from history")
+	flags.StringVarP(&command, "query", "q", "", "query command by prefix")
 }
 
 func preflight(ctx *histlite.Context) {
