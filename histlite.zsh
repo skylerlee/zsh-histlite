@@ -7,9 +7,23 @@ function zshaddhistory {
 }
 
 function histlite-search-up {
+  [[ -z $BUFFER ]] && return
+  local ret=$(hlclient -q $BUFFER)
+  if [[ -n $ret ]]; then
+    zle kill-whole-line
+    BUFFER=$ret
+    zle end-of-line
+  fi
 }
 
 function histlite-search-down {
+  [[ -z $BUFFER ]] && return
+  local ret=$(hlclient -q $BUFFER)
+  if [[ -n $ret ]]; then
+    zle kill-whole-line
+    BUFFER=$ret
+    zle end-of-line
+  fi
 }
 
 zle -N histlite-search-up
