@@ -67,7 +67,7 @@ func (ctx *Context) InsertHistory(row History) {
 	stmt.Exec(row.Command, row.Retcode, row.Timestamp)
 }
 
-func (ctx *Context) FindHistory(prefix string) *History {
+func (ctx *Context) FindHistory(prefix string) (*History, int) {
 	rows, err := ctx.db.Query(`SELECT command, retcode, timestamp FROM zsh_history
 	WHERE command LIKE ?`, prefix + "%")
 	if err != nil {

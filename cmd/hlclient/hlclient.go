@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"fmt"
 	"time"
 	"github.com/spf13/cobra"
 	"github.com/skylerlee/zsh-histlite"
@@ -55,13 +56,13 @@ func dropCommand(line string) {
 func queryCommand(line string) {
 	ctx := histlite.NewContext()
 	preflight(ctx)
-	history := ctx.FindHistory(line)
+	history, count := ctx.FindHistory(line)
 	ctx.Close()
+	command := ""
 	if history != nil {
-		os.Stdout.WriteString(history.Command)
-	} else {
-		os.Exit(histlite.NODAT)
+		command := history.Command
 	}
+	fmt.Printf("%s:%d", command, count)
 }
 
 func main() {
