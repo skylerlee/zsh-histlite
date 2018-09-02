@@ -60,7 +60,7 @@ func queryCommand(line string) {
 	ctx.Close()
 	command := ""
 	if history != nil {
-		command := history.Command
+		command = history.Command
 	}
 	fmt.Printf("%s:%d", command, count)
 }
