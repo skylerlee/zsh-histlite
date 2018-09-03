@@ -75,12 +75,13 @@ func (ctx *Context) FindHistory(prefix string) (*History, int) {
 	}
 	defer rows.Close()
 	if !rows.Next() {
-		return nil
+		// empty result
+		return nil, 0
 	}
 	var history History
 	err = rows.Scan(&history.Command, &history.Retcode, &history.Timestamp)
 	if err != nil {
 		os.Exit(ERR_EXC)
 	}
-	return &history
+	return &history, 0
 }
