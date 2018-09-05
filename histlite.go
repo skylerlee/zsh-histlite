@@ -37,7 +37,7 @@ func (ctx *Context) Close() {
 
 func (ctx *Context) CreateTable() {
 	ctx.db.Exec(`CREATE TABLE zsh_history (
-		id INTEGER,
+		id INTEGER PRIMARY KEY,
 		command TEXT,
 		retcode INTEGER,
 		timestamp INTEGER
@@ -56,9 +56,9 @@ func (ctx *Context) IsTableCreated() bool {
 
 func (ctx *Context) InsertHistory(row History) {
 	stmt, err := ctx.db.Prepare(`INSERT INTO zsh_history (
-		id, command, retcode, timestamp
+		command, retcode, timestamp
 	) VALUES (
-		0, ?, ?, ?
+		?, ?, ?
 	)`)
 	if err != nil {
 		os.Exit(ERR_EXC)
