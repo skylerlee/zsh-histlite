@@ -60,7 +60,7 @@ func queryCommand(line string) {
 	preflight(ctx)
 	i := strings.LastIndex(line, ":")
 	prefix := line[0:i]
-	num, err := strconv.ParseInt(line[i:], 10, 32)
+	num, err := strconv.ParseInt(line[i + 1:], 10, 32)
 	if err != nil {
 		os.Exit(histlite.ERR_EXC)
 	}
