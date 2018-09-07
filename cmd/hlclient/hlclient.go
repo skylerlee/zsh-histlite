@@ -4,6 +4,8 @@ import (
 	"os"
 	"fmt"
 	"time"
+	"strings"
+	"strconv"
 	"github.com/spf13/cobra"
 	"github.com/skylerlee/zsh-histlite"
 )
@@ -56,7 +58,14 @@ func dropCommand(line string) {
 func queryCommand(line string) {
 	ctx := histlite.NewContext()
 	preflight(ctx)
-	history, count := ctx.FindHistory(line)
+	i := strings.LastIndex(line, ":")
+	prefix := line[0:i]
+	num, err := strconv.ParseInt(line[i:], 10, 32)
+	if err != nil {
+		os.Exit(histlite.ERR_EXC)
+	}
+	offset := int(num)
+	history, count := ctx.FindHistory(prefix, offset)
 	ctx.Close()
 	command := ""
 	if history != nil {
