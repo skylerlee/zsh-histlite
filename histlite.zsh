@@ -10,7 +10,8 @@ function zshaddhistory {
 
 function histlite-search-up {
   [[ -z $BUFFER ]] && return
-  local ret=$(hlclient -q $BUFFER)
+  (( _histlite_search_index++ ))
+  local ret=$(hlclient -q $BUFFER:$_histlite_search_index)
   local cmd=${ret%:*}
   local idx=${ret##*:}
   if [[ -n $ret ]]; then
@@ -22,7 +23,8 @@ function histlite-search-up {
 
 function histlite-search-down {
   [[ -z $BUFFER ]] && return
-  local ret=$(hlclient -q $BUFFER)
+  (( _histlite_search_index-- ))
+  local ret=$(hlclient -q $BUFFER:$_histlite_search_index)
   local cmd=${ret%:*}
   local idx=${ret##*:}
   if [[ -n $ret ]]; then
