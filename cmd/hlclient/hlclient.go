@@ -65,13 +65,13 @@ func queryCommand(line string) {
 		os.Exit(histlite.ERR_EXC)
 	}
 	offset := int(num)
-	history, count := ctx.FindHistory(prefix, offset)
+	history := ctx.FindHistory(prefix, offset)
 	ctx.Close()
 	command := ""
 	if history != nil {
 		command = history.Command
 	}
-	fmt.Printf("%s:%d", command, count)
+	fmt.Printf("%s:%d", command, offset)
 }
 
 func main() {
