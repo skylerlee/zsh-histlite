@@ -67,11 +67,11 @@ func queryCommand(line string) {
 	offset := int(num)
 	history := ctx.FindHistory(prefix, offset)
 	ctx.Close()
-	command := ""
 	if history != nil {
-		command = history.Command
+		fmt.Printf("%s:%d", history.Command, offset)
+	} else {
+		fmt.Printf("%s:%d", "", -1)
 	}
-	fmt.Printf("%s:%d", command, offset)
 }
 
 func main() {
