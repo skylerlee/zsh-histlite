@@ -33,6 +33,7 @@ func init() {
 	flags.StringVarP(&command, "add", "a", "", "add command to history")
 	flags.StringVarP(&command, "drop", "d", "", "drop command from history")
 	flags.StringVarP(&command, "query", "q", "", "query command by prefix")
+	flags.IntVar(&index, "n", 0, "command index")
 }
 
 func preflight(ctx *histlite.Context) {
