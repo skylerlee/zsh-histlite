@@ -4,13 +4,14 @@ import (
 	"os"
 	"fmt"
 	"time"
-	"strings"
-	"strconv"
 	"github.com/spf13/cobra"
 	"github.com/skylerlee/zsh-histlite"
 )
 
-var command string
+var (
+	command string
+	offset  int
+)
 
 var mainCmd = &cobra.Command{
 	Use: "hlclient",
@@ -33,7 +34,7 @@ func init() {
 	flags.StringVarP(&command, "add", "a", "", "add command to history")
 	flags.StringVarP(&command, "drop", "d", "", "drop command from history")
 	flags.StringVarP(&command, "query", "q", "", "query command by prefix")
-	flags.IntVar(&index, "n", 0, "command index")
+	flags.IntVarP(&offset, "number", "n", 0, "command offset")
 }
 
 func preflight(ctx *histlite.Context) {
@@ -59,14 +60,7 @@ func dropCommand(line string) {
 func queryCommand(line string) {
 	ctx := histlite.NewContext()
 	preflight(ctx)
-	i := strings.LastIndex(line, ":")
-	prefix := line[0:i]
-	num, err := strconv.ParseInt(line[i+1:], 10, 32)
-	if err != nil {
-		os.Exit(histlite.ERR_EXC)
-	}
-	offset := int(num)
-	history := ctx.FindHistory(prefix, offset)
+	history := ctx.FindHistory(line, offset)
 	ctx.Close()
 	if history != nil {
 		fmt.Printf("%s:%d", history.Command, offset)
