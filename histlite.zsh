@@ -12,11 +12,11 @@ function histlite-search-up {
   [[ -z $BUFFER ]] && return
   (( _histlite_search_index++ ))
   local ret=$(hlclient -q $BUFFER -n $_histlite_search_index)
-  local cmd=${ret%:*}
-  local idx=${ret##*:}
-  if [[ -n $ret ]]; then
+  local cmd=${ret%\n*}
+  local idx=${ret##*\n}
+  if [[ -n $cmd ]]; then
     zle kill-whole-line
-    BUFFER=$ret
+    BUFFER=$cmd
     zle end-of-line
   fi
 }
@@ -25,11 +25,11 @@ function histlite-search-down {
   [[ -z $BUFFER ]] && return
   (( _histlite_search_index-- ))
   local ret=$(hlclient -q $BUFFER -n $_histlite_search_index)
-  local cmd=${ret%:*}
-  local idx=${ret##*:}
-  if [[ -n $ret ]]; then
+  local cmd=${ret%\n*}
+  local idx=${ret##*\n}
+  if [[ -n $cmd ]]; then
     zle kill-whole-line
-    BUFFER=$ret
+    BUFFER=$cmd
     zle end-of-line
   fi
 }
