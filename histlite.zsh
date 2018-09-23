@@ -15,10 +15,12 @@ function histlite-search-up {
   local arr=("${(@f)ret}")
   local cmd=${arr[1]}
   local idx=${arr[2]}
-  if [[ -n $cmd ]]; then
+  if [[ idx -gt -1 ]]; then
     zle kill-whole-line
     BUFFER=$cmd
     zle end-of-line
+  else
+    _histlite_search_index=0
   fi
 }
 
@@ -29,10 +31,12 @@ function histlite-search-down {
   local arr=("${(@f)ret}")
   local cmd=${arr[1]}
   local idx=${arr[2]}
-  if [[ -n $cmd ]]; then
+  if [[ idx -gt -1 ]]; then
     zle kill-whole-line
     BUFFER=$cmd
     zle end-of-line
+  else
+    _histlite_search_index=0
   fi
 }
 
