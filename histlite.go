@@ -69,7 +69,7 @@ func (ctx *Context) InsertHistory(row History) {
 
 func (ctx *Context) FindHistory(prefix string, offset int) *History {
 	rows, err := ctx.db.Query(`SELECT command, retcode, timestamp FROM zsh_history
-	WHERE command LIKE ? LIMIT ?, 1`, prefix + "%", offset)
+	WHERE command LIKE ? ORDER BY timestamp DESC LIMIT ?, 1`, prefix + "%", offset)
 	if err != nil {
 		os.Exit(ERR_EXC)
 	}
