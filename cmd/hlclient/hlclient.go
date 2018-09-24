@@ -1,11 +1,12 @@
 package main
 
 import (
-	"os"
 	"fmt"
+	"os"
 	"time"
-	"github.com/spf13/cobra"
+
 	"github.com/skylerlee/zsh-histlite"
+	"github.com/spf13/cobra"
 )
 
 var (
