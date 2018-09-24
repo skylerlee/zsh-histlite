@@ -3,17 +3,23 @@
 # found in the LICENSE file.
 
 declare -gi _histlite_search_index=0
-declare -g  _histlite_search_input=''
+declare -g  _histlite_search_query=''
 
 function zshaddhistory {
   hlclient -a "${1%%$'\n'}"
+  histlite-reset
+}
+
+function histlite-reset {
+  _histlite_search_index=0
+  _histlite_search_query=''
 }
 
 function histlite-search-up {
   [[ -z $BUFFER ]] && return
-  [[ -z $_histlite_search_input ]] && _histlite_search_input=$BUFFER
+  [[ -z $_histlite_search_query ]] && _histlite_search_query=$BUFFER
   (( _histlite_search_index++ ))
-  local ret=$(hlclient -q $_histlite_search_input -n $_histlite_search_index)
+  local ret=$(hlclient -q $_histlite_search_query -n $_histlite_search_index)
   local arr=("${(@f)ret}")
   local cmd=${arr[1]}
   local idx=${arr[2]}
@@ -22,15 +28,15 @@ function histlite-search-up {
     BUFFER=$cmd
     zle end-of-line
   else
-    BUFFER=$_histlite_search_input
+    BUFFER=$_histlite_search_query
   fi
 }
 
 function histlite-search-down {
   [[ -z $BUFFER ]] && return
-  [[ -z $_histlite_search_input ]] && _histlite_search_input=$BUFFER
+  [[ -z $_histlite_search_query ]] && _histlite_search_query=$BUFFER
   (( _histlite_search_index-- ))
-  local ret=$(hlclient -q $_histlite_search_input -n $_histlite_search_index)
+  local ret=$(hlclient -q $_histlite_search_query -n $_histlite_search_index)
   local arr=("${(@f)ret}")
   local cmd=${arr[1]}
   local idx=${arr[2]}
@@ -39,7 +45,7 @@ function histlite-search-down {
     BUFFER=$cmd
     zle end-of-line
   else
-    BUFFER=$_histlite_search_input
+    BUFFER=$_histlite_search_query
   fi
 }
 
