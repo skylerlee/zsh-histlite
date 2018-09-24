@@ -12,7 +12,7 @@ function zshaddhistory {
 }
 
 function histlite-search {
-  local out=$(hlclient -q $_histlite_search_query -n $_histlite_search_index)
+  local out=$(hlclient -q "$_histlite_search_query" -n $_histlite_search_index)
   _histlite_search_result=("${(@f)out}")
 }
 
@@ -22,7 +22,6 @@ function histlite-reset {
 }
 
 function histlite-search-up {
-  [[ -z $BUFFER ]] && return
   [[ -z $_histlite_search_query ]] && _histlite_search_query=$BUFFER
   (( _histlite_search_index++ ))
   histlite-search
@@ -38,7 +37,6 @@ function histlite-search-up {
 }
 
 function histlite-search-down {
-  [[ -z $BUFFER ]] && return
   [[ -z $_histlite_search_query ]] && _histlite_search_query=$BUFFER
   (( _histlite_search_index-- ))
   histlite-search
