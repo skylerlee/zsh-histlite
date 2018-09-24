@@ -2,7 +2,7 @@
 # Use of this source code is governed by the MIT license that can be
 # found in the LICENSE file.
 
-typeset -g -i _histlite_search_index
+declare -gi _histlite_search_index=0
 
 function zshaddhistory {
   hlclient -a "${1%%$'\n'}"
