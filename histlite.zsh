@@ -8,7 +8,12 @@ declare -ga _histlite_search_result=()
 
 function zshaddhistory {
   hlclient -a "${1%%$'\n'}"
-  histlite-reset
+}
+
+function histlite-sync-input {
+  zle .self-insert
+  _histlite_search_index=0
+  _histlite_search_query=$BUFFER
 }
 
 function histlite-search {
@@ -16,13 +21,7 @@ function histlite-search {
   _histlite_search_result=("${(@f)out}")
 }
 
-function histlite-reset {
-  _histlite_search_index=0
-  _histlite_search_query=''
-}
-
 function histlite-search-up {
-  [[ -z $_histlite_search_query ]] && _histlite_search_query=$BUFFER
   (( _histlite_search_index++ ))
   histlite-search
   local cmd=${_histlite_search_result[1]}
@@ -37,7 +36,6 @@ function histlite-search-up {
 }
 
 function histlite-search-down {
-  [[ -z $_histlite_search_query ]] && _histlite_search_query=$BUFFER
   (( _histlite_search_index-- ))
   histlite-search
   local cmd=${_histlite_search_result[1]}
@@ -51,6 +49,7 @@ function histlite-search-down {
   fi
 }
 
+zle -N self-insert histlite-sync-input
 zle -N histlite-search-up
 zle -N histlite-search-down
 
