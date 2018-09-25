@@ -50,8 +50,5 @@ function histlite-search-down {
 }
 
 zle -N self-insert histlite-sync-input
-zle -N histlite-search-up
-zle -N histlite-search-down
-
-bindkey "${terminfo[kcuu1]}" histlite-search-up
-bindkey "${terminfo[kcud1]}" histlite-search-down
+zle -N up-line-or-beginning-search histlite-search-up
+zle -N down-line-or-beginning-search histlite-search-down
