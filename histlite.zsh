@@ -22,31 +22,31 @@ function histlite-search {
 }
 
 function histlite-search-up {
-  (( _histlite_search_index++ ))
   histlite-search
   local cmd=${_histlite_search_result[1]}
   local idx=${_histlite_search_result[2]}
-  if [[ idx -gt -1 ]]; then
     zle kill-whole-line
+  if [[ idx -gt -1 ]]; then
     BUFFER=$cmd
-    zle end-of-line
+    (( _histlite_search_index++ ))
   else
     BUFFER=$_histlite_search_query
   fi
+  zle end-of-line
 }
 
 function histlite-search-down {
-  (( _histlite_search_index-- ))
   histlite-search
   local cmd=${_histlite_search_result[1]}
   local idx=${_histlite_search_result[2]}
+  zle kill-whole-line
   if [[ idx -gt -1 ]]; then
-    zle kill-whole-line
     BUFFER=$cmd
-    zle end-of-line
+    (( _histlite_search_index-- ))
   else
     BUFFER=$_histlite_search_query
   fi
+  zle end-of-line
 }
 
 zle -N self-insert histlite-sync-input
