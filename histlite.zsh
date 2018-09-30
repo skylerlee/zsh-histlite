@@ -2,9 +2,19 @@
 # Use of this source code is governed by the MIT license that can be
 # found in the LICENSE file.
 
+setopt RE_MATCH_PCRE
+
 declare -g  _histlite_search_query=''
 declare -gi _histlite_search_index=0
 declare -ga _histlite_search_result=()
+declare -ga _histlite_ignore_widgets=(
+  beep
+  run-help
+  set-local-history
+  which-command
+  yank
+  yank-pop
+)
 
 function zshaddhistory {
   hlclient -a "${1%%$'\n'}"
@@ -48,7 +58,20 @@ function histlite-search-down {
   zle end-of-line
 }
 
+function histlite-bind-widget {
+}
+
 function histlite-bind-widgets {
+  local widgets=(${(f)"$(builtin zle -la)"})
+  for widget in $widgets; do
+    if [[ $widget =~ '^[\._]' ]]; then
+      continue
+    elif [[ -n ${_histlite_ignore_widgets[(r)$widget]} ]]; then
+      continue
+    else
+      histlite-bind-widget $widget sync
+    fi
+  done
 }
 
 zle -N up-line-or-beginning-search histlite-search-up
