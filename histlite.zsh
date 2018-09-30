@@ -48,15 +48,9 @@ function histlite-search-down {
   zle end-of-line
 }
 
-function histlite-self-insert {
-  zle .self-insert && histlite-sync
+function histlite-bind-widgets {
 }
 
-function histlite-backward-delete-char {
-  zle .backward-delete-char && histlite-sync
-}
-
-zle -N self-insert histlite-self-insert
-zle -N backward-delete-char histlite-backward-delete-char
 zle -N up-line-or-beginning-search histlite-search-up
 zle -N down-line-or-beginning-search histlite-search-down
+histlite-bind-widgets
