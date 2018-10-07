@@ -61,7 +61,7 @@ function histlite-search-down {
 function histlite-call-widget {
   local widget=$1
   if [[ ${+widgets[$widget]} -ne 1 ]]; then
-    return 0
+    return 1
   fi
   zle $@
   return $?
