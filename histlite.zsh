@@ -58,7 +58,20 @@ function histlite-search-down {
   zle end-of-line
 }
 
+function histlite-call-widget {
+  zle $@
+  return $?
+}
+
 function histlite-bind-widget {
+  local widget=$1
+  local action=$2
+
+  eval "function _histlite_bound_$widget {
+    histlite-call-widget ".$widget" \$@ && histlite-$action
+  }"
+
+  zle -N $widget "_histlite_bound_$widget"
 }
 
 function histlite-bind-widgets {
