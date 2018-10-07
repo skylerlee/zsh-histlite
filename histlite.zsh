@@ -20,18 +20,18 @@ function zshaddhistory {
   hlclient -a "${1%%$'\n'}"
 }
 
-function histlite-sync {
+function histlite-action-sync {
   _histlite_search_index=0
   _histlite_search_query=$BUFFER
 }
 
-function histlite-search {
+function histlite-start-search {
   local out=$(hlclient -q "$_histlite_search_query" -n $_histlite_search_index)
   _histlite_search_result=("${(@f)out}")
 }
 
 function histlite-search-up {
-  histlite-search
+  histlite-start-search
   local cmd=${_histlite_search_result[1]}
   local idx=${_histlite_search_result[2]}
   zle kill-whole-line
@@ -45,7 +45,7 @@ function histlite-search-up {
 }
 
 function histlite-search-down {
-  histlite-search
+  histlite-start-search
   local cmd=${_histlite_search_result[1]}
   local idx=${_histlite_search_result[2]}
   zle kill-whole-line
@@ -67,11 +67,11 @@ function histlite-bind-widget {
   local widget=$1
   local action=$2
 
-  eval "function _histlite_bound_$widget {
-    histlite-call-widget ".$widget" \$@ && histlite-$action
+  eval "function _histlite_widget_$widget {
+    histlite-call-widget ".$widget" \$@ && histlite-action-$action
   }"
 
-  zle -N $widget "_histlite_bound_$widget"
+  zle -N $widget "_histlite_widget_$widget"
 }
 
 function histlite-bind-widgets {
