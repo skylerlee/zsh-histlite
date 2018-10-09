@@ -71,11 +71,11 @@ function histlite-bind-widget {
   local widget=$1
   local action=$2
 
-  eval "function _histlite_widget_$widget {
-    histlite-call-widget ".$widget" \$@ && histlite-action-$action
+  eval "function _histlite_widget_${(q)widget} {
+    histlite-call-widget .${(q)widget} \$@ && histlite-action-$action
   }"
 
-  zle -N $widget "_histlite_widget_$widget"
+  zle -N $widget _histlite_widget_$widget
 }
 
 function histlite-bind-widgets {
