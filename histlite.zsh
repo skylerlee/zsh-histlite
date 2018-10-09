@@ -71,6 +71,9 @@ function histlite-bind-widget {
   local widget=$1
   local action=$2
 
+  case $widgets[$widget] in
+  esac
+
   eval "function _histlite_widget_${(q)widget} {
     histlite-call-widget .${(q)widget} \$@ && histlite-action-$action
   }"
@@ -79,8 +82,7 @@ function histlite-bind-widget {
 }
 
 function histlite-bind-widgets {
-  local widgets=(${(f)"$(builtin zle -la)"})
-  for widget in $widgets; do
+  for widget in ${(f)"$(builtin zle -la)"}; do
     if [[ $widget =~ '^[\._]' ]]; then
       continue
     elif [[ -n ${_histlite_ignore_widgets[(r)$widget]} ]]; then
