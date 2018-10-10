@@ -59,15 +59,6 @@ function histlite-search-down {
   zle end-of-line
 }
 
-function histlite-call-widget {
-  local widget=$1
-  if [[ ${+widgets[$widget]} -ne 1 ]]; then
-    return 1
-  fi
-  zle $@
-  return $?
-}
-
 function histlite-bind-widget {
   local widget=$1
   local action=$2
