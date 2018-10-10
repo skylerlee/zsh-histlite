@@ -103,6 +103,7 @@ function histlite-bind-widgets {
   done
 }
 
+histlite-bind-widgets
+
 zle -N up-line-or-beginning-search histlite-search-up
 zle -N down-line-or-beginning-search histlite-search-down
-histlite-bind-widgets
