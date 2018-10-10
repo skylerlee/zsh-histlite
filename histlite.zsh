@@ -7,6 +7,7 @@ setopt RE_MATCH_PCRE
 declare -g  _histlite_search_query=''
 declare -gi _histlite_search_index=0
 declare -ga _histlite_search_result=()
+declare -gr _histlite_widget_prefix='hl-'
 declare -ga _histlite_ignore_widgets=(
   beep
   run-help
@@ -70,12 +71,28 @@ function histlite-call-widget {
 function histlite-bind-widget {
   local widget=$1
   local action=$2
+  local widget_info=$widgets[$widget]
 
-  case $widgets[$widget] in
+  case $widget_info in
+    user:*)
+      zle -N $_histlite_widget_prefix-$widget ${widget_info#*:}
+    ;;
+    completion:*)
+    # TODO:(implement)
+    ;;
+    builtin)
+      eval "function $_histlite_widget_prefix-${(q)widget} {
+        zle .${(q)widget} -- \$@
+      }"
+      zle -N $_histlite_widget_prefix-$widget
+    ;;
+    *)
+    # TODO:(implement)
+    ;;
   esac
 
   eval "function _histlite_widget_${(q)widget} {
-    histlite-call-widget .${(q)widget} \$@ && histlite-action-$action
+    zle $_histlite_widget_prefix-${(q)widget} -- \$@ && histlite-action-$action
   }"
 
   zle -N $widget _histlite_widget_$widget
