@@ -22,6 +22,7 @@ function zshaddhistory {
 }
 
 function histlite-action-sync {
+  # Sync current state
   _histlite_search_index=0
   _histlite_search_query=$BUFFER
 }
@@ -86,6 +87,7 @@ function histlite-bind-widget {
     zle $_histlite_widget_prefix-${(q)widget} -- \$@ && histlite-action-$action
   }"
 
+  # Rebind target widget
   zle -N $widget _histlite_widget_$widget
 }
 
