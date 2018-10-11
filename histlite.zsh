@@ -70,7 +70,7 @@ function histlite-bind-widget {
       zle -N $_histlite_widget_prefix-$widget ${widget_info#*:}
     ;;
     completion:*)
-    # TODO:(implement)
+      zle -C $_histlite_widget_prefix-$widget ${${widget_info#*:}/:/ }
     ;;
     builtin)
       eval "function $_histlite_widget_prefix-${(q)widget} {
@@ -79,7 +79,7 @@ function histlite-bind-widget {
       zle -N $_histlite_widget_prefix-$widget
     ;;
     *)
-    # TODO:(implement)
+      echo "zsh-histlite: unhandled ZLE widget '$widget'"
     ;;
   esac
 
