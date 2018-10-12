@@ -7,7 +7,7 @@ setopt RE_MATCH_PCRE
 declare -g  _histlite_search_query=''
 declare -gi _histlite_search_index=0
 declare -ga _histlite_search_result=()
-declare -gr _histlite_widget_prefix='hl-'
+declare -gr _histlite_widget_prefix='hl-orig'
 declare -ga _histlite_ignore_widgets=(
   beep
   run-help
@@ -83,12 +83,12 @@ function histlite-bind-widget {
     ;;
   esac
 
-  eval "function _histlite_widget_${(q)widget} {
+  eval "function _hl_bound_${(q)widget} {
     zle $_histlite_widget_prefix-${(q)widget} -- \$@ && histlite-action-$action
   }"
 
   # Rebind target widget
-  zle -N $widget _histlite_widget_$widget
+  zle -N $widget _hl_bound_$widget
 }
 
 function histlite-bind-widgets {
