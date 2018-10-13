@@ -63,14 +63,14 @@ function histlite-search-down {
 function histlite-bind-widget {
   local widget=$1
   local action=$2
-  local widget_info=$widgets[$widget]
+  local widget_info=(${(s.:.)widgets[$widget]})
 
-  case $widget_info in
-    user:*)
-      zle -N $_histlite_widget_prefix-$widget ${widget_info#*:}
+  case ${widget_info[1]} in
+    user)
+      zle -N $_histlite_widget_prefix-$widget ${widget_info[2]}
     ;;
-    completion:*)
-      zle -C $_histlite_widget_prefix-$widget ${${widget_info#*:}/:/ }
+    completion)
+      zle -C $_histlite_widget_prefix-$widget ${widget_info[2]} ${widget_info[3]}
     ;;
     builtin)
       eval "function $_histlite_widget_prefix-${(q)widget} {
