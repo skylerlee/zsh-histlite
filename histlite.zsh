@@ -64,13 +64,16 @@ function histlite-bind-widget {
   local widget=$1
   local action=$2
   local widget_info=(${(s.:.)widgets[$widget]})
+  local widget_type=${widget_info[1]}
+  local widget_func=${widget_info[2]}
+  local widget_ext=${widget_info[3]}
 
-  case ${widget_info[1]} in
+  case $widget_type in
     user)
-      zle -N $_histlite_widget_prefix-$widget ${widget_info[2]}
+      zle -N $_histlite_widget_prefix-$widget $widget_func
     ;;
     completion)
-      zle -C $_histlite_widget_prefix-$widget ${widget_info[2]} ${widget_info[3]}
+      zle -C $_histlite_widget_prefix-$widget $widget_func $widget_ext
     ;;
     builtin)
       eval "function $_histlite_widget_prefix-${(q)widget} {
