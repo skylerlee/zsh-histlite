@@ -21,19 +21,19 @@ function zshaddhistory {
   hlclient -a "${1%%$'\n'}"
 }
 
-function histlite-action-sync {
+function _histlite-action-sync {
   # Sync current state
   _histlite_search_index=0
   _histlite_search_query=$BUFFER
 }
 
-function histlite-start-search {
+function _histlite-start-search {
   local out=$(hlclient -q "$_histlite_search_query" -n $_histlite_search_index)
   _histlite_search_result=("${(@f)out}")
 }
 
 function histlite-search-up {
-  histlite-start-search
+  _histlite-start-search
   local cmd=${_histlite_search_result[1]}
   local idx=${_histlite_search_result[2]}
   zle kill-whole-line
@@ -47,7 +47,7 @@ function histlite-search-up {
 }
 
 function histlite-search-down {
-  histlite-start-search
+  _histlite-start-search
   local cmd=${_histlite_search_result[1]}
   local idx=${_histlite_search_result[2]}
   zle kill-whole-line
@@ -60,7 +60,7 @@ function histlite-search-down {
   zle end-of-line
 }
 
-function histlite-bind-widget {
+function _histlite-bind-widget {
   local widget=$1
   local action=$2
   local widget_info=(${(s.:.)widgets[$widget]})
@@ -87,26 +87,26 @@ function histlite-bind-widget {
   esac
 
   eval "function _hl_bound_${(q)widget} {
-    zle $_histlite_widget_prefix-${(q)widget} -- \$@ && histlite-action-$action
+    zle $_histlite_widget_prefix-${(q)widget} -- \$@ && _histlite-action-$action
   }"
 
   # Rebind target widget
   zle -N $widget _hl_bound_$widget
 }
 
-function histlite-bind-widgets {
+function _histlite-bind-widgets {
   for widget in ${(f)"$(builtin zle -la)"}; do
     if [[ $widget =~ '^[\._]' ]]; then
       continue
     elif [[ -n ${_histlite_ignore_widgets[(r)$widget]} ]]; then
       continue
     else
-      histlite-bind-widget $widget sync
+      _histlite-bind-widget $widget sync
     fi
   done
 }
 
-histlite-bind-widgets
+_histlite-bind-widgets
 
 zle -N up-line-or-beginning-search histlite-search-up
 zle -N down-line-or-beginning-search histlite-search-down
