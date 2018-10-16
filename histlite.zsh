@@ -7,7 +7,7 @@ setopt RE_MATCH_PCRE
 declare -g  _histlite_search_query=''
 declare -gi _histlite_search_index=0
 declare -ga _histlite_search_result=()
-declare -gr _histlite_widget_prefix='hl-orig'
+declare -gr _histlite_widget_prefix=hl-orig
 declare -ga _histlite_ignore_widgets=(
   beep
   run-help
@@ -35,6 +35,7 @@ function _histlite-start-search {
 function _histlite-bind-widget {
   local widget=$1
   local action=$2
+  local prefix=$_histlite_widget_prefix
   local widget_info=(${(s.:.)widgets[$widget]})
   local widget_type=${widget_info[1]}
   local widget_func=${widget_info[2]}
@@ -42,16 +43,16 @@ function _histlite-bind-widget {
 
   case $widget_type in
     user)
-      zle -N $_histlite_widget_prefix-$widget $widget_func
+      zle -N $prefix-$widget $widget_func
     ;;
     completion)
-      zle -C $_histlite_widget_prefix-$widget $widget_func $widget_ext
+      zle -C $prefix-$widget $widget_func $widget_ext
     ;;
     builtin)
-      eval "function $_histlite_widget_prefix-${(q)widget} {
+      eval "function $prefix-${(q)widget} {
         zle .${(q)widget} -- \$@
       }"
-      zle -N $_histlite_widget_prefix-$widget
+      zle -N $prefix-$widget
     ;;
     *)
       echo "zsh-histlite: unhandled ZLE widget '$widget'"
@@ -59,7 +60,7 @@ function _histlite-bind-widget {
   esac
 
   eval "function _hl_bound_${(q)widget} {
-    zle $_histlite_widget_prefix-${(q)widget} -- \$@ && _histlite-action-$action
+    zle $prefix-${(q)widget} -- \$@ && _histlite-action-$action
   }"
 
   # Rebind target widget
