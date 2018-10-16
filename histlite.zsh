@@ -32,34 +32,6 @@ function _histlite-start-search {
   _histlite_search_result=("${(@f)out}")
 }
 
-function histlite-search-up {
-  _histlite-start-search
-  local cmd=${_histlite_search_result[1]}
-  local idx=${_histlite_search_result[2]}
-  zle kill-whole-line
-  if [[ idx -gt -1 ]]; then
-    BUFFER=$cmd
-    (( _histlite_search_index++ ))
-  else
-    BUFFER=$_histlite_search_query
-  fi
-  zle end-of-line
-}
-
-function histlite-search-down {
-  _histlite-start-search
-  local cmd=${_histlite_search_result[1]}
-  local idx=${_histlite_search_result[2]}
-  zle kill-whole-line
-  if [[ idx -gt -1 ]]; then
-    BUFFER=$cmd
-    (( _histlite_search_index-- ))
-  else
-    BUFFER=$_histlite_search_query
-  fi
-  zle end-of-line
-}
-
 function _histlite-bind-widget {
   local widget=$1
   local action=$2
@@ -104,6 +76,34 @@ function _histlite-bind-widgets {
       _histlite-bind-widget $widget sync
     fi
   done
+}
+
+function histlite-search-up {
+  _histlite-start-search
+  local cmd=${_histlite_search_result[1]}
+  local idx=${_histlite_search_result[2]}
+  zle kill-whole-line
+  if [[ idx -gt -1 ]]; then
+    BUFFER=$cmd
+    (( _histlite_search_index++ ))
+  else
+    BUFFER=$_histlite_search_query
+  fi
+  zle end-of-line
+}
+
+function histlite-search-down {
+  _histlite-start-search
+  local cmd=${_histlite_search_result[1]}
+  local idx=${_histlite_search_result[2]}
+  zle kill-whole-line
+  if [[ idx -gt -1 ]]; then
+    BUFFER=$cmd
+    (( _histlite_search_index-- ))
+  else
+    BUFFER=$_histlite_search_query
+  fi
+  zle end-of-line
 }
 
 _histlite-bind-widgets
