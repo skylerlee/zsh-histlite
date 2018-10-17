@@ -7,6 +7,7 @@ setopt RE_MATCH_PCRE
 declare -g  _histlite_search_query=''
 declare -gi _histlite_search_index=0
 declare -ga _histlite_search_result=()
+declare -gi _histlite_state_locked=0
 declare -gr _histlite_widget_prefix=hl-orig
 declare -ga _histlite_ignore_widgets=(
   beep
@@ -21,7 +22,16 @@ function zshaddhistory {
   hlclient -a "${1%%$'\n'}"
 }
 
+function _histlite-state-lock {
+  _histlite_state_locked=1
+}
+
+function _histlite-state-unlock {
+  _histlite_state_locked=0
+}
+
 function _histlite-action-sync {
+  (( $_histlite_state_locked )) && return
   # Sync current state
   _histlite_search_index=0
   _histlite_search_query=$BUFFER
@@ -80,6 +90,7 @@ function _histlite-bind-widgets {
 }
 
 function histlite-search-up {
+  _histlite-state-lock
   _histlite-start-search
   local cmd=${_histlite_search_result[1]}
   local idx=${_histlite_search_result[2]}
@@ -91,9 +102,11 @@ function histlite-search-up {
     BUFFER=$_histlite_search_query
   fi
   zle end-of-line
+  _histlite-state-unlock
 }
 
 function histlite-search-down {
+  _histlite-state-lock
   _histlite-start-search
   local cmd=${_histlite_search_result[1]}
   local idx=${_histlite_search_result[2]}
@@ -105,6 +118,7 @@ function histlite-search-down {
     BUFFER=$_histlite_search_query
   fi
   zle end-of-line
+  _histlite-state-unlock
 }
 
 _histlite-bind-widgets
