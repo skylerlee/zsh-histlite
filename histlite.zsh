@@ -6,7 +6,6 @@ setopt RE_MATCH_PCRE
 
 declare -g  _histlite_search_query=''
 declare -gi _histlite_search_index=0
-declare -ga _histlite_search_result=()
 declare -gi _histlite_state_locked=0
 declare -gr _histlite_widget_prefix=hl-orig
 declare -ga _histlite_ignore_widgets=(
@@ -37,9 +36,8 @@ function _histlite-action-sync {
   _histlite_search_query=$BUFFER
 }
 
-function _histlite-start-search {
-  local out=$(hlclient -q "$_histlite_search_query" -n $_histlite_search_index)
-  _histlite_search_result=("${(@f)out}")
+function _histlite-do-search {
+  hlclient -q "$_histlite_search_query" -n $_histlite_search_index
 }
 
 function _histlite-bind-widget {
@@ -91,9 +89,7 @@ function _histlite-bind-widgets {
 
 function histlite-search-up {
   _histlite-state-lock
-  _histlite-start-search
-  local cmd=${_histlite_search_result[1]}
-  local idx=${_histlite_search_result[2]}
+  local result=$(_histlite-do-search)
   zle kill-whole-line
   if [[ idx -gt -1 ]]; then
     BUFFER=$cmd
@@ -107,9 +103,7 @@ function histlite-search-up {
 
 function histlite-search-down {
   _histlite-state-lock
-  _histlite-start-search
-  local cmd=${_histlite_search_result[1]}
-  local idx=${_histlite_search_result[2]}
+  local result=$(_histlite-do-search)
   zle kill-whole-line
   if [[ idx -gt -1 ]]; then
     BUFFER=$cmd
