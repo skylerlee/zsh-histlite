@@ -64,9 +64,9 @@ func queryCommand(line string) {
 	history := ctx.FindHistory(line, offset)
 	ctx.Close()
 	if history != nil {
-		fmt.Printf("%s\n%d", history.Command, offset)
+		fmt.Printf("%d:%s", 0, history.Command)
 	} else {
-		fmt.Printf("%s\n%d", "", -1)
+		fmt.Printf("%d:%s", -1, "")
 	}
 }
 

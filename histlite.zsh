@@ -90,9 +90,11 @@ function _histlite-bind-widgets {
 function histlite-search-up {
   _histlite-state-lock
   local result=$(_histlite-do-search)
+  local errcode=${result%%:*}
+  local command=${result#*:}
   zle kill-whole-line
-  if [[ idx -gt -1 ]]; then
-    BUFFER=$cmd
+  if [[ errcode -gt -1 ]]; then
+    BUFFER=$command
     (( _histlite_search_index++ ))
   else
     BUFFER=$_histlite_search_query
@@ -104,9 +106,11 @@ function histlite-search-up {
 function histlite-search-down {
   _histlite-state-lock
   local result=$(_histlite-do-search)
+  local errcode=${result%%:*}
+  local command=${result#*:}
   zle kill-whole-line
-  if [[ idx -gt -1 ]]; then
-    BUFFER=$cmd
+  if [[ errcode -gt -1 ]]; then
+    BUFFER=$command
     (( _histlite_search_index-- ))
   else
     BUFFER=$_histlite_search_query
