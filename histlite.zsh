@@ -93,7 +93,7 @@ function histlite-search-up {
   local errcode=${result%%:*}
   local command=${result#*:}
   zle kill-whole-line
-  if [[ errcode -gt -1 ]]; then
+  if (( errcode > -1 )); then
     BUFFER=$command
     (( _histlite_search_index++ ))
   else
@@ -109,7 +109,7 @@ function histlite-search-down {
   local errcode=${result%%:*}
   local command=${result#*:}
   zle kill-whole-line
-  if [[ errcode -gt -1 ]]; then
+  if (( errcode > -1 )); then
     BUFFER=$command
     (( _histlite_search_index-- ))
   else
