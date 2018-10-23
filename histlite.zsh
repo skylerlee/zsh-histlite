@@ -105,13 +105,15 @@ function histlite-search-up {
 
 function histlite-search-down {
   _histlite-state-lock
-  local result=$(_histlite-do-search)
-  local errcode=${result%%:*}
-  local command=${result#*:}
   zle kill-whole-line
-  if (( errcode > -1 )); then
-    BUFFER=$command
+  if (( _histlite_search_index > 0 )); then
     (( _histlite_search_index-- ))
+    local result=$(_histlite-do-search)
+    local errcode=${result%%:*}
+    local command=${result#*:}
+    if (( errcode > -1 )); then
+      BUFFER=$command
+    fi
   else
     BUFFER=$_histlite_search_query
   fi
