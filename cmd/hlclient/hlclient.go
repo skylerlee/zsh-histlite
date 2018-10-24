@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/skylerlee/zsh-histlite"
-	"github.com/spf13/cobra"
 )
 
 var (

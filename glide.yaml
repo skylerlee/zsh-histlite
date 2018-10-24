@@ -2,9 +2,3 @@ package: github.com/skylerlee/zsh-histlite
 import:
 - package: github.com/mattn/go-sqlite3
   version: ^1.9.0
-- package: github.com/spf13/cobra
-  version: ^0.0.3
-  subpackages:
-  - cobra
-- package: github.com/spf13/pflag
-  version: ^1.0.1

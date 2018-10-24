@@ -1,14 +1,6 @@
-hash: d786393890358092c94c81b6ae078cbc9cb53df43fbdf26b2a0aa4798524c4ac
-updated: 2018-07-25T00:15:03.446032925+08:00
+hash: 7b2e0ee213e0a985a3c11c224c4364c2ccf294d3e97c84a2ecdfd648630e2af9
+updated: 2018-10-25T00:44:11.034207584+08:00
 imports:
-- name: github.com/inconshreveable/mousetrap
-  version: 76626ae9c91c4f2a10f34cad8ce83ea42c93bb75
 - name: github.com/mattn/go-sqlite3
   version: 25ecb14adfc7543176f7d85291ec7dba82c6f7e4
-- name: github.com/spf13/cobra
-  version: ef82de70bb3f60c65fb8eebacbb2d122ef517385
-  subpackages:
-  - cobra
-- name: github.com/spf13/pflag
-  version: 583c0c0531f06d5278b7d917446061adc344b5cd
 testImports: []
