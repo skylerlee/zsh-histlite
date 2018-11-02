@@ -8,6 +8,8 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+//go:generate ./inject_code.sh histlite.go histlite.sql
+
 const (
 	HistoryFile = ".zsh_history.db"
 )
