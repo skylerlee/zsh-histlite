@@ -37,17 +37,11 @@ func (ctx *Context) Close() {
 }
 
 func (ctx *Context) CreateTable() {
-	ctx.db.Exec(`CREATE TABLE zsh_history (
-		id INTEGER PRIMARY KEY,
-		command TEXT,
-		retcode INTEGER,
-		timestamp INTEGER
-	)`)
+	ctx.db.Exec(`{{CREATE_TABLE}}`)
 }
 
 func (ctx *Context) IsTableCreated() bool {
-	rows, err := ctx.db.Query(`SELECT name FROM sqlite_master
-	WHERE type='table' AND name='zsh_history'`)
+	rows, err := ctx.db.Query(`{{TEST_TABLE}}`)
 	if err != nil {
 		os.Exit(ERR_EXC)
 	}
@@ -56,11 +50,7 @@ func (ctx *Context) IsTableCreated() bool {
 }
 
 func (ctx *Context) InsertHistory(row History) {
-	stmt, err := ctx.db.Prepare(`INSERT INTO zsh_history (
-		command, retcode, timestamp
-	) VALUES (
-		?, ?, ?
-	)`)
+	stmt, err := ctx.db.Prepare(`{{INSERT_ITEM}}`)
 	if err != nil {
 		os.Exit(ERR_EXC)
 	}
@@ -69,8 +59,7 @@ func (ctx *Context) InsertHistory(row History) {
 }
 
 func (ctx *Context) FindHistory(prefix string, offset int) *History {
-	rows, err := ctx.db.Query(`SELECT command, retcode, timestamp FROM zsh_history
-	WHERE command LIKE ? ORDER BY timestamp DESC LIMIT ?, 1`, prefix+"%", offset)
+	rows, err := ctx.db.Query(`{{QUERY_ITEM}}`, prefix+"%", offset)
 	if err != nil {
 		os.Exit(ERR_EXC)
 	}
