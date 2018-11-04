@@ -6,7 +6,10 @@ BUILD_FLAGS := -ldflags "-s -w"
 
 .PHONY: default
 
-default: build
+default: generate build
+
+generate:
+	go generate
 
 build:
 	go build $(BUILD_FLAGS) ./cmd/...
