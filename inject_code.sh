@@ -23,10 +23,18 @@ function clip_code {
   sed -n "$((begin + 1)),$((end - 1))p" $dat
 }
 
+function truncate_code {
+  echo ${1//\n/}
+}
+
 function inject_code_blocks {
+  local opts=''
   for key in ${!code_blocks[@]}; do
     local code=${code_blocks[$key]}
+    code=$(truncate_code "$code")
+    opts+="-e s/{{$key}}/'$code'/g "
   done
+  eval "sed $opts$src"
 }
 
 function main {
