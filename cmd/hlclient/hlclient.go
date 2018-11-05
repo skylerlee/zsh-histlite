@@ -40,6 +40,10 @@ func addCommand(line string) {
 }
 
 func dropCommand(line string) {
+	ctx := histlite.NewContext()
+	preflight(ctx)
+	// TODO: add drop code
+	ctx.Close()
 }
 
 func queryCommand(line string) {
