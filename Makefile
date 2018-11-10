@@ -12,5 +12,5 @@ generate:
 	go generate
 
 build:
-	go build $(BUILD_FLAGS) ./cmd/...
+	go build -o bin/hlclient $(BUILD_FLAGS) ./cmd/...
 	@echo "Build done"
